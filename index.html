@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"  ng-app="multiTimerApp">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-timer</title>
+
+    <!-- add CSS  -->
+    <link rel="stylesheet" href="assets/plugins/semantic-ui/semantic.min.css"> 
+    <link rel="stylesheet" href="includes/css/styles.css">   
+
+    <!-- add JS plugins -->
+    <script src="assets/plugins/jQuery/jquery-3.6.0.min.js"></script>
+    <script src="assets/plugins/angularJs/angular.min.js"></script>
+    <script src="assets/plugins/semantic-ui/semantic.min.js"></script>
+    <script src="assets/plugins/moment.js/moment.min.js"></script>
+    <script src="assets/plugins/moment.js/moment-with-locales.js"></script>
+    <script src="assets/plugins/moment.js/moment-jalaali.js"></script>
+
+</head>
+<body ng-controller="TimerListController">
+
+    
+    <ul>
+        <li ng-repeat="time in timers">
+          <span>{{time.name}}</span>
+          <p>{{time.snippet}}</p>
+        </li>
+      </ul>
+
+
+
+    <!-- add app JS -->
+    <script src="includes/js/app.js"></script>
+
+</body>
+</html>
