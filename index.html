@@ -18,42 +18,20 @@
     <script src="assets/plugins/moment.js/moment.min.js"></script>
     <script src="assets/plugins/moment.js/moment-with-locales.js"></script>
     <script src="assets/plugins/moment.js/moment-jalaali.js"></script>
+    <script src="includes/js/util.js"></script>
 
-        <!-- add app JS -->
-        <script src="includes/js/app/app.js"></script>
-        <script src="includes/js/app/components/timerList.js"></script>
+    <!-- add app JS -->
+    <script src="includes/js/app/app.js"></script>
+    <!-- <script src="includes/js/app/components/timerList.js"></script> -->
 
 </head>
 
-<body >
+<body ng-controller="TimerListController">
+
     <div class="ui container">
         <div class="ui top attached menu">
-            <div class="ui dropdown icon item">
-                <i class="wrench icon"></i>
-                <div class="menu">
-                    <div class="item">
-                        <i class="dropdown icon"></i>
-                        <span class="text">New</span>
-                        <div class="menu">
-                            <div class="item">Document</div>
-                            <div class="item">Image</div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        Open...
-                    </div>
-                    <div class="item">
-                        Save...
-                    </div>
-                    <div class="item">Edit Permissions</div>
-                    <div class="divider"></div>
-                    <div class="header">
-                        Export
-                    </div>
-                    <div class="item">
-                        Share...
-                    </div>
-                </div>
+            <div class="ui icon item">
+                <i class="plus icon" ng-click="addTimer()"></i>
             </div>
             <div class="right menu">
                 <div class="ui right aligned category search item">
@@ -65,8 +43,66 @@
                 </div>
             </div>
         </div>
+
+        <div class="ui attached segment">
+            <div class="ui cards">
+                <div class="card" ng-repeat="timer in timers">
+                    <div class="content">
+                        <div class="header" my-customer> no-title </div>
+                        <div class="meta" digital-clock>-</div>
+                        <div class="description">- </div>
+                    </div>
+                    <div class="extra content">
+                        <div class="ui two buttons">
+                            <div class="ui basic green button" ng-click="pauseTimer(timer)">Pause</div>
+                            <div class="ui basic red button" ng-click="playTimer()">Stop</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="ui bottom attached segment">
-            <p></p>
+            <table class="ui compact celled definition table">
+                <thead class="full-width">
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Registration Date</th>
+                        <th>E-mail address</th>
+                        <th>Premium Plan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="timer in timers">
+                        <td class="collapsing">
+                            <div class="ui fitted slider checkbox">
+                                <input type="checkbox"> <label></label>
+                            </div>
+                        </td>
+                        <td>{{timer.startEvent}}</td>
+                        <td>September 14, 2013</td>
+                        <td>jhlilk22@yahoo.com</td>
+                        <td>No</td>
+                    </tr>
+                </tbody>
+                <tfoot class="full-width">
+                    <tr>
+                        <th></th>
+                        <th colspan="4">
+                            <div class="ui right floated small primary labeled icon button">
+                                <i class="user icon"></i> Add User
+                            </div>
+                            <div class="ui small  button">
+                                Approve
+                            </div>
+                            <div class="ui small  disabled button">
+                                Approve All
+                            </div>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
         <!-- <ul>
             <li ng-repeat="time in timers">
@@ -76,6 +112,7 @@
         </ul> -->
         <timer-list></timer-list>
     </div>
+    
 
 
 
