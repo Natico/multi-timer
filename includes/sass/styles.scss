@@ -1,6 +1,6 @@
 body {
-    margin: 0;
-    padding: 0;
+    // margin: 0;
+    // padding: 0;
 
     // .clock {
     //     position: absolute;
@@ -12,4 +12,20 @@ body {
     //     font-family: Orbitron;
     //     letter-spacing: 7px;
     // }
+
+    .timers-wrapper {
+        .timer {
+            .title {
+                input {
+                    width: 190px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    outline: none;
+                    border: none;
+                    border-bottom: 1px solid #e8e8e8;
+                }
+            }
+        }
+    }
 }

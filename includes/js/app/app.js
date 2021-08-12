@@ -3,95 +3,102 @@ var multiTimerApp = angular.module('multiTimerApp', []);
 
 // Define the `TimerListController` controller on the `multiTimerApp` module
 multiTimerApp.controller('TimerListController', ['$scope', '$q', function ($scope, $q) {
+    
     $scope.timers = [];
-
+    $scope.modalData = {}
 
     $scope.addTimer = function () {
         let i = 0;
         let timer = {
             startEvent: new Date().getTime(),
             endEvent: null,
+            lastPlayEvent: new Date().getTime(),
             title: null,
-            famsStoryId: null,
-            famsTaskId: null,
-            id: getUniqueId("time-"),
+            famsStoryNumber: null,
+            famsTaskNumber: null,
+            uniqueId: getUniqueId("time-"),
             status: null,
-            lastPauseTime : null,
+            lastPauseTime: null,
+            lastPLayTime: null,
+            pausedList: [],
             duretion: 0
         }
         console.log(timer);
         $scope.timers.push(timer);
     };
 
-    $scope.pauseTimer = function (timer){
+    $scope.pauseTimer = function (timer) {
         timer.status = "PAUSED";
         timer.lastPauseTime = new Date().getTime();
+        timer.pausedList.push({
+            playTime: timer.lastPlayEvent,
+            puseTime: timer.lastPauseTime
+        })
     }
 
-    $scope.playTimer = function (timer){
+    $scope.playTimer = function (timer) {
         timer.status = "PLAYED";
-        // timer.lastPauseTime = new Date().getTime();
+        timer.lastPlayEvent = new Date().getTime();
     }
 
-    $scope.stopTimer = function (){
-        timer.status = "STOPED"
+    $scope.stopTimer = function (timer) {
+        timer.lastPauseTime = new Date().getTime();
+        timer.endEvent = new Date().getTime();
+        if (timer.status == "PLAYED") {
+            timer.pausedList.push({
+                playTime: timer.lastPlayEvent,
+                puseTime: timer.lastPauseTime
+            })
+        }
+        timer.status = "STOPED";
     }
+
+    $scope.showModal = function(timer){
+        $scope.modalData = timer;
+        $('.ui.modal').modal('show')
+    }
+
 }]);
+
 
 multiTimerApp.directive("digitalClock", function ($timeout, dateFilter) {
     return function (scope, element, attrs) {
 
+        scope.calculate = function (s) {
+            let duretionTotal = 0
+            for (let i = 0; i < scope.timer.pausedList.length; i++) {
+                let item = scope.timer.pausedList[i];
+                let itemDuration = parseInt((item.puseTime - item.playTime));
+                duretionTotal = duretionTotal + itemDuration;
+            }
+            scope.timer.duretion = msToTime(duretionTotal);
+        }
+
         scope.updateClock = function () {
             $timeout(function () {
-                if(scope.timer.status != "PAUSED"){
-                    let lastTime = scope.timer.lastPauseTime ? scope.timer.lastPauseTime : scope.timer.startEvent;
-                    let duretionTime = parseInt((new Date().getTime() - lastTime) / 1000) ;
-                    if(scope.timer.lastPauseTime){
-                        duretionTime = scope.timer.duretion ? duretionTime + scope.timer.duretion : duretionTime;
-                        scope.timer.lastPauseTime = null;
-                    }
-                    
-                    element.text(duretionTime);
-                    scope.timer.duretion = duretionTime;
+                if (scope.timer.status == "PLAYED") {
+                    let duretionTime = parseInt((new Date().getTime() - scope.timer.lastPlayEvent));
+                    element.text(msToTime(duretionTime));
                     scope.updateClock();
+                } else {
+                    element.text("00:00:00");
                 }
-                
+
             }, 1000);
         };
 
-        scope.updateClock();
+        var watchForChange = function () {
+            return scope.timer.status;
+        }
 
+        scope.$watch(watchForChange, function (newValue, oldValue, scope) {
+            if (scope.timer.status == "PLAYED") {
+                scope.updateClock();
+            } else if (scope.timer.status == "PAUSED" || scope.timer.status == "STOPED") {
+                scope.calculate();
+            }
+        }, true);
+
+        scope.timer.status = "PLAYED";
     };
 });
-
-// multiTimerApp.directive('myCustomer', ['$interval', 'dateFilter', function ($interval, dateFilter) {
-
-//     function link(scope, element, attrs) {
-//         debugger;
-//         showTime(element[0])
-//         // var format,
-//         //     timeoutId;
-
-//         // function updateTime() {
-//         //     element.text(dateFilter(new Date(), format));
-//         // }
-
-//         // scope.$watch(attrs.myCurrentTime, function (value) {
-//         //     format = value;
-//         //     updateTime();
-//         // });
-
-//         // element.on('$destroy', function () {
-//         //     $interval.cancel(timeoutId);
-//         // });
-
-//         // // start the UI update process; save the timeoutId for canceling
-//         // timeoutId = $interval(function () {
-//         //     updateTime(); // update DOM
-//         // }, 1000);
-//     }
-
-//     return {
-//         link: link
-//     };
-// }]);

@@ -28,11 +28,27 @@
 
 <body ng-controller="TimerListController">
 
-    <div class="ui container">
-        <div class="ui top attached menu">
-            <div class="ui icon item">
-                <i class="plus icon" ng-click="addTimer()"></i>
-            </div>
+    <div class="ui container" >
+        <div class="ui top attached labeled icon menu">
+            
+            <!-- <button class="ui item animated button" ng-click="addTimer()">
+                <i class="plus icon"></i>
+                Generat Timer
+                </button> -->
+
+                <a class="item">
+                    <i class="plus icon"></i>
+                    Generat Timer
+                  </a>
+
+                <!-- <div class="ui vertical animated button item" tabindex="0">
+                    <div class="visible content">Generat Timer</div>
+                    <div class="hidden content">
+                        <i class="plus icon"></i>
+                    </div>
+                  </div> -->
+            <!-- <i class="plus icon" ng-click="addTimer()"></i> -->
+            
             <div class="right menu">
                 <div class="ui right aligned category search item">
                     <div class="ui transparent icon input">
@@ -44,18 +60,38 @@
             </div>
         </div>
 
-        <div class="ui attached segment">
-            <div class="ui cards">
-                <div class="card" ng-repeat="timer in timers">
+        <div class="ui attached segment" >
+            <div class="ui cards timers-wrapper">
+                <div class="card timer" ng-repeat="timer in timers">
+                    <a class="ui right corner label">
+                        <i class="cogs icon link" ng-click="showModal(timer)" ></i>
+                    </a>
                     <div class="content">
-                        <div class="header" my-customer> no-title </div>
-                        <div class="meta" digital-clock>-</div>
-                        <div class="description">- </div>
+                        <div class="ui header title" my-customer>
+                            <span>Title : </span>
+                            <input ng-model="timer.title" placeholder="Write your title">
+                            <div class="sub header">ID : {{timer.uniqueId}} </div>
+                        </div>
+
+                        <div class="ui teal statistic">
+                            <div class="value">
+                                <span digital-clock>00:00:00</span>
+                            </div>
+                            <div class="label">
+                                Duration (Now)
+                            </div>
+                        </div>
+
+                        <!-- <div class="meta">Duration (Now) : <span digital-clock></span></div> -->
+                        <div class="description">Duration (Total) : {{timer.duretion}}</span></div>
                     </div>
-                    <div class="extra content">
+                    <div class="extra content" ng-if="timer.status != 'STOPED'">
                         <div class="ui two buttons">
-                            <div class="ui basic green button" ng-click="pauseTimer(timer)">Pause</div>
-                            <div class="ui basic red button" ng-click="playTimer()">Stop</div>
+                            <div class="ui yellow button" ng-if="timer.status == 'PLAYED'" ng-click="pauseTimer(timer)">
+                                Pause</div>
+                            <div class="ui green button" ng-if="timer.status == 'PAUSED'" ng-click="playTimer(timer)">
+                                Play</div>
+                            <div class="ui red button" ng-click="stopTimer(timer)">Stop</div>
                         </div>
                     </div>
                 </div>
@@ -112,7 +148,44 @@
         </ul> -->
         <timer-list></timer-list>
     </div>
-    
+
+    <div class="ui modal" >
+        <div class="header">Header</div>
+        <div class="content" ng-model="timer">
+            <div class="ui equal width form">
+                <div class="fields">
+                  <div class="field">
+                    <label>Title</label>
+                    <input type="text" placeholder="Username" ng-model="modalData.title">
+                  </div>
+                  <div class="field">
+                    <label>ID</label>
+                    <input type="text" readonly class="read" ng-model="modalData.uniqueId">
+                  </div>
+                </div>
+                <div class="fields">
+                  <div class="field">
+                    <label>FAMS STORY NUMBER</label>
+                    <input type="text" placeholder="First Name">
+                  </div>
+                  <div class="field">
+                    <label>FAMS TASK NUMBER</label>
+                    <input type="text" placeholder="Middle Name">
+                  </div>
+                  <div class="field">
+                    <label>Last name</label>
+                    <input type="text" placeholder="Last Name">
+                  </div>
+                </div>
+              </div>
+        </div>
+        <div class="actions">
+            <div class="ui approve button">Approve</div>
+            <div class="ui button">Neutral</div>
+            <div class="ui cancel button">Cancel</div>
+        </div>
+    </div>
+
 
 
 
