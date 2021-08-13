@@ -1,4 +1,4 @@
-angular.module('multiTimerApp').component('timerList', {  // This name is what AngularJS uses to match to the `<timeList>` element.
+multiTimerApp.component('timerList', {  // This name is what AngularJS uses to match to the `<timeList>` element.
     template:
         '<ul>' +
           '<li ng-repeat="time in $ctrl.timers">' +

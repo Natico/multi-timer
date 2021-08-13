@@ -12,17 +12,21 @@
     <link rel="stylesheet" href="includes/css/styles.css">
 
     <!-- add JS plugins -->
-    <script src="assets/plugins/jQuery/jquery-3.6.0.min.js"></script>
-    <script src="assets/plugins/angularJs/angular.min.js"></script>
+    <script src="assets/plugins/jQuery/jquery-3.6.0.min.js"></script>        
+    <script src="assets/plugins/angularJs/angular.min.js"></script>   
+    <script src="assets/plugins/angularJs/angular-dateTime-filters.js"></script>   
+
     <script src="assets/plugins/semantic-ui/semantic.min.js"></script>
     <script src="assets/plugins/moment.js/moment.min.js"></script>
     <script src="assets/plugins/moment.js/moment-with-locales.js"></script>
     <script src="assets/plugins/moment.js/moment-jalaali.js"></script>
     <script src="includes/js/util.js"></script>
-
-    <!-- add app JS -->
+    
+    <!-- add angularJs  -->
     <script src="includes/js/app/app.js"></script>
-    <!-- <script src="includes/js/app/components/timerList.js"></script> -->
+    <script src="includes/js/app/directives/digitalClock.js"></script>
+    <script src="includes/js/app/controllers/TimerListController.js"></script>
+    <script src="includes/js/app/components/timerList.js"></script>
 
 </head>
 
@@ -186,9 +190,9 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="paused in modalData.pausedList">
-                        <td>{{paused.playTime}}</td>
-                        <td>{{paused.puseTime}}</td>
-                        <td>{{paused.puseTime - paused.playTime | myFormat }}</td>
+                        <td>{{paused.playTime | moment: 'format' : 'YYYY/MM/DD HH:mm:ss'}}</td>
+                        <td>{{paused.puseTime | moment: 'format' : 'YYYY/MM/DD HH:mm:ss'}}</td>
+                        <td>{{paused.puseTime - paused.playTime | msToTime }}</td>
                     </tr>
                 </tbody>
             </table>
