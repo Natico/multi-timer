@@ -1,7 +1,10 @@
 // Define the `TimerListController` controller on the `multiTimerApp` module
-multiTimerApp.controller('TimerListController', ['$scope', '$q', function ($scope, $q) {
+multiTimerApp.controller('TimerListController', ['$scope', 'StorDataService', function ($scope, StorDataService) {
+
+    $scope.setTimer= (timer)=> StorDataService.setTimers(timer);    
+    $scope.timers = StorDataService.getTimers();
     
-    $scope.timers = [];
+
     $scope.modalData = {}
 
     $scope.addTimer = function () {
@@ -21,7 +24,7 @@ multiTimerApp.controller('TimerListController', ['$scope', '$q', function ($scop
             duretion: 0
         }
         console.log(timer);
-        $scope.timers.push(timer);
+        $scope.setTimer(timer)
     };
 
     $scope.pauseTimer = function (timer) {
@@ -51,6 +54,8 @@ multiTimerApp.controller('TimerListController', ['$scope', '$q', function ($scop
     }
 
     $scope.showModal = function(timer){
+        
+        StorDataService.setModalTimerData(timer)
         $scope.modalData = timer;
         $('.ui.modal').modal('show')
     }

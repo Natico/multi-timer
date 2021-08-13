@@ -26,11 +26,12 @@
     <script src="includes/js/app/app.js"></script>
     <script src="includes/js/app/directives/digitalClock.js"></script>
     <script src="includes/js/app/controllers/TimerListController.js"></script>
-    <script src="includes/js/app/components/timerList.js"></script>
+    <script src="includes/js/app/components/table/timerList.js"></script>
+    <script src="includes/js/app/components/modal/modal.js"></script>
 
 </head>
 
-<body ng-controller="TimerListController">
+<body ng-controller="TimerListController as ctrl">
 
     <div class="ui container">
         <div class="ui top attached inverted menu">
@@ -153,51 +154,7 @@
         <timer-list></timer-list>
     </div>
 
-    <div class="ui modal">
-        <div class="header">Header</div>
-        <div class="content" ng-model="timer">
-            <div class="ui equal width form">
-                <div class="fields">
-                    <div class="field">
-                        <label>Title</label>
-                        <input type="text" placeholder="Title" ng-model="modalData.title">
-                    </div>
-                    <div class="field">
-                        <label>ID</label>
-                        <input type="text" readonly placeholder="ID" ng-model="modalData.uniqueId">
-                    </div>
-                </div>
-                <div class="fields">
-                    <div class="field">
-                        <label>FAMS STORY NUMBER</label>
-                        <input type="text" placeholder="FAMS STORY NUMBER" ng-model="modalData.title">
-                    </div>
-                    <div class="field">
-                        <label>FAMS TASK NUMBER</label>
-                        <input type="text" placeholder="FAMS TASK NUMBER" ng-model="modalData.title">
-                    </div>
-
-                </div>
-            </div>
-            <table class="ui celled striped table">
-                <thead>
-                    <tr>
-                        <!-- <th>Row number</th> -->
-                        <th>Play Time</th>
-                        <th>Pause Time</th>
-                        <th>Duration Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="paused in modalData.pausedList">
-                        <td>{{paused.playTime | moment: 'format' : 'YYYY/MM/DD HH:mm:ss'}}</td>
-                        <td>{{paused.puseTime | moment: 'format' : 'YYYY/MM/DD HH:mm:ss'}}</td>
-                        <td>{{paused.puseTime - paused.playTime | msToTime }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <timer-modal timer="$ctrl.modalData"></timer-modal>
 
 
 
